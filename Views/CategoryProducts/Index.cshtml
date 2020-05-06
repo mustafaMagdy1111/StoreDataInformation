@@ -1,0 +1,141 @@
+﻿@model IEnumerable<StoreDataInformation.Models.CategoryProduct>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="site-panel">
+            <div class="new-request" id="content-wrap">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default row-nav" data-height="700" id="row1"dir="rtl">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Prodcut
+                                    <div id="nav-wrap" class="form-navigation">
+                                        <div id="scroller-anchor"></div>
+                                        <div id="nav">
+                                        </div>
+                                    </div>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <p>
+                                    @Html.ActionLink("Add Prodcut +", "Create")
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>الكود</label>
+                                            @Html.TextBox("ProdcutCode", null, null, htmlAttributes: new
+                                       {
+                                           @id = "ProdcutCode",
+                                           @type = "number",
+                                           @min = "1",
+                                           @value = "0",
+                                           title = "من فضلك ادخل الكود",
+                                           @class = "form-control",
+                                           @placeholder = " ادخل الكود"
+                                       })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>الاسم </label>
+                                            @Html.TextBox("Category", null, null, htmlAttributes: new
+                                       {
+                                           @id = "CustomerName",
+                                           title = "من فضلك ادخل اسم العميل",
+                                           @class = "form-control",
+                                           @placeholder = " من فضلك ادخل اسم العميل"
+                                       })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>كود المنطقة</label>
+                                            @Html.TextBox("AreaCodeId", null, null, htmlAttributes: new
+                                       {
+                                           @id = "AreaCodeId",
+                                           title = "من فضلك ادخل كود المنطقة",
+                                           @class = "form-control",
+                                           @placeholder = " من فضلك ادخل كود المنطقة"
+                                       })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 text-center" style="margin-top:30px;">
+                                        <button type="button" id="searchBtn" class="btn btn-primary"
+                                                data-loading-text="جارى البحث <i class='fa fa-spinner fa-spin'></i>">
+                                            بحث <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div id="CustomerDiv">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        var approot = "@HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")";
+
+    $("#searchBtn").click(function () {
+        var ProdcutCode = $("#ProdcutCode").val();
+        //var CustomerName = $("#CustomerName").val();
+        //var AreaCodeId = $("#AreaCodeId").val();
+        getRequests(ProdcutCode);
+    });
+
+        var getRequests = function (ProdcutCode) {
+        debugger
+        var $this = $('#searchBtn');
+
+        $this.button('loading');
+        return $.ajax({
+            url: approot + "CategoryProducts/Index",
+            method: 'POST',
+            data: {
+                ProdcutCode: ProdcutCode,
+                page: 1,
+
+            },
+            success: function (result) {
+                debugger
+                $("#CustomerDiv").html(result);
+                $this.button('reset');
+            },
+            error: function (err) {
+                debugger;
+                alert("من فضلك ادخل بيانات صحيحه");
+                $this.button('reset');
+            }
+        });
+    }
+
+
+    </script>
+}

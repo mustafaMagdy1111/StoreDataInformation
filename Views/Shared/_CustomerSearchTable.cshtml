@@ -1,0 +1,77 @@
+﻿<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                @Html.TextBox("CustomerName", null, null, htmlAttributes: new { @class = "form-control",  @placeholder = "Customer Name" })
+                <br /><br />
+                @Html.TextBox("CustomerId", null, null, htmlAttributes: new { @class = "form-control", @placeholder = "Customer Id" })
+                <span class="input-group-btn">
+                    <button id="hosNameSearch" type="button" class="btn btn-default" onclick="SearchCustomer()">
+                        <img src="~/images/search-icon.png" alt="">
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div id="CustomerDiv" style="display:none">
+
+</div>
+<script>
+    var approot = "@HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")";
+
+    function GetCustomerData(id, name) {
+
+        debugger
+        $("#CustomerNameToAdd").val(name);
+        $("#CustomerIdToAdd").val(id);
+        $("#CustModal").modal("toggle");
+    }
+
+    $('#CustModal').on('hidden.bs.modal', function () {
+        $("#CustomerName").val('');
+        $("#CustomerId").val('');
+        $('#CustomerDiv').empty();
+    });
+    function SearchCustomer() {
+        debugger
+        var temp1 = $("#CustomerName").val();
+        var temp12 = $("#CustomerId").val();
+
+        $.ajax({
+            type: 'GET',
+            url: approot + "/CustomerProdcuts/SearchInCustomer",
+            data: {
+                searchText: $("#CustomerName").val(),
+                searchId: $("#CustomerId").val(),
+
+            },
+            success: function (result) {
+                debugger
+                if (result.length > 0) {
+                    var tableDiv = $("#CustomerDiv");
+                    $("#CustomerDiv").css("display", "block");
+                    var table = '<table class="table table-striped" id ="hosDatatable"><thead><tr><th>الكود</th><th>اسم المستشفى</th><th></th></thead><tbody>';
+                    for (var i in result) {
+                        table += "<tr><td>" + result[i].ID + "</td><td>" + result[i].NAME + "</td>";
+                        var CustomerId = result[i].ID;
+                        var CustomerName = result[i].NAME;
+                        var link = '<input type="button" class="btn btn-primary btn-xs" value=' + "اختر" + ' onClick="GetCustomerData(' + CustomerId + ',\'' + CustomerName + '\')"/>'; //add \' to read string parameter in link
+                        table += '<td style="text-align:center;">' + link + "</td></tr>";
+                    }
+                    table += "</tbody></table>";
+                    tableDiv.html(table);
+                    $("table").addClass("table table-striped table-bordered");
+                }
+                else {
+                    $("#CustomerDiv").html("");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "request failed");
+            }
+
+        });
+    }
+</script>

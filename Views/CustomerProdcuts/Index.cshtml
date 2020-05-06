@@ -1,0 +1,193 @@
+﻿@model StoreDataInformation.Models.CustomerProdcut
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="site-panel">
+            <div class="new-request" id="content-wrap">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <div class="panel panel-default row-nav" data-height="700" id="row1">
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="required-field" for="CustomerName">Customer</label>
+                                            <div class="input-group">
+                                                @Html.TextBox("CustomerNameToAdd", null, new { @class = "form-control", @id = "CustomerNameToAdd", @placeholder = "جهة العلاج", @readonly = "readonly", @required = "required" })
+                                                @Html.HiddenFor(e => e.CustomerId, new { @id = "CustomerIdToAdd" })
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#CustModal"><img src="~/images/search-icon.png" alt=""></button>
+                                                    <button class="btn btn-default" id="equalBtn" type="button"><i class="glyphicon glyphicon-transfer"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="required-field" for="CustomerName">Customer</label>
+                                            <div class="input-group">
+                                                @Html.TextBox("ProductNameToAdd", null, new { @class = "form-control", @id = "ProductNameToAdd", @placeholder = "اسم المنتج", @readonly = "readonly", @required = "required" })
+                                                @Html.HiddenFor(e => e.CategoryProductId, new { @id = "ProductIdToAdd" })
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ProdModal"><img src="~/images/search-icon.png" alt=""></button>
+                                                    <button class="btn btn-default" id="equalBtn" type="button"><i class="glyphicon glyphicon-transfer"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input onclick="Save()" value="Begin Transaction" class="btn btn-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12 text-center" style="margin-top:30px;">
+                                        <button type="button" id="searchBtn" class="btn btn-primary"
+                                                data-loading-text="جارى البحث <i class='fa fa-spinner fa-spin'></i>">
+                                            بحث <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <br />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CustomerProductDiv">
+
+</div>
+
+
+
+@section scripts
+{   
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+       var approot = "@HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")";
+
+            //function Save() {
+            //    debugger
+            //    var CustomerId = $("#CustomerIdToAdd").val();
+            //    var ProdcutId = $("#ProductIdToAdd").val();
+
+
+            //    var CustomerProductToBeAdded = {
+            //        CustomerId: CustomerId,
+            //        CategoryProductId: ProdcutId,
+            //    };
+
+            //    //ajax call to save the doctor and user name if the data is validate and correct
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: approot + "/CustomerProdcuts/Create",
+            //        data: {
+            //            CustomerProductToBeAdded,
+            //        },
+            //        success: function (response) {
+            //            debugger
+            //            if (response == "Stock Not Found That Product") {
+            //                alert("Stock Not Found That Product");
+            //            }
+            //        },
+            //        error: function (xhr, ajaxOptions, thrownError) {
+            //            alert(thrownError + "request failed");
+            //        }
+
+            //    });
+            //}
+        $("#searchBtn").click(function () {
+            var ProdcutCode = $("#CustomerIdToAdd").val();
+            //var CustomerName = $("#CustomerName").val();
+            //var AreaCodeId = $("#AreaCodeId").val();
+            getRequests(ProdcutCode);
+        });
+
+        var getRequests = function (ProdcutCode) {
+            debugger
+            var $this = $('#searchBtn');
+
+            $this.button('loading');
+            return $.ajax({
+                url: approot + "CustomerProdcuts/Index",
+                method: 'POST',
+                data: {
+                    CustomerId: ProdcutCode,
+                    page: 1,
+
+                },
+                success: function (result) {
+                    debugger
+                    $("#CustomerProductDiv").html(result);
+                    $this.button('reset');
+                },
+                error: function (err) {
+                    debugger;
+                    alert("من فضلك ادخل بيانات صحيحه");
+                    $this.button('reset');
+                }
+            });
+        }
+
+</script>
+
+}
+
+<div class="modal fade" id="CustModal" tabindex="-2" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span>
+                </button>
+                <h4 class="modal-title">العملاء</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form-bg">
+                    @Html.Partial("_CustomerSearchTable")
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ModalBtnCancel" type="button" class="btn btn-primary" data-dismiss="modal">اغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ProdModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span>
+                </button>
+                <h4 class="modal-title">المنتجات</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form-bg">
+                    @Html.Partial("_ProductSearchTable")
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ModalBtnCancel" type="button" class="btn btn-primary" data-dismiss="modal">اغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
