@@ -45,7 +45,7 @@
     </td>
     <td>
         @Html.ActionLink("تعديل", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("تفاصيل", "Details", new { id = item.Id })
+        @Html.ActionLink("حذف", "Delete", new { id = item.Id })
     </td>
 </tr>
     }
@@ -62,10 +62,7 @@
             "Index",
             new
             {
-                COUNTRYID = ViewBag.CountryId,
-                COUNTRYARABICNAME = ViewBag.CountryArabicName,
-                COUNTRYNAME = ViewBag.CountryName,
-                ACTIVE = ViewBag.ACTIVE,
+                ProdcutCode = ViewBag.ProdcutCode,
                 page
             }
         ),

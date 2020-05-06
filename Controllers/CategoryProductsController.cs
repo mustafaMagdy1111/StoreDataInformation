@@ -22,12 +22,10 @@ namespace StoreDataInformation.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int? ProdcutCode, int? page)
+        public ActionResult Index(string ProdcutCode, int? page)
         {
-            //ViewBag.CustomerId = CustomerId;
-            //ViewBag.CustomerName = CustomerName;
-            //ViewBag.AreaCodeId = AreaCodeId;
-            int pageSize = 25;
+            ViewBag.ProdcutCode = ProdcutCode;
+            int pageSize = 5;
             int pageNumber = page ?? 1;
             List<CategoryProduct> categoryProducts = new List<CategoryProduct>();
             StaticPagedList<CategoryProduct> resultAsPagedList;
@@ -35,28 +33,18 @@ namespace StoreDataInformation.Controllers
 
             try
             {
-                //if (CustomerId != null)
-                //{
-                //    customers = db.Customers.Where(c => c.Id == CustomerId).ToList();
-                //    superSetCount = db.Customers.Where(c => c.Id == CustomerId).Count();
-                //}
-                //else if (AreaCodeId != null)
-                //{
-                //    customers = db.Customers.Where(c => c.AreaCodeId == AreaCodeId).ToList();
-                //    superSetCount = db.Customers.Where(c => c.AreaCodeId == AreaCodeId).Count();
-                //}
-                //else if (CustomerName != "")
-                //{
-                //    customers = db.Customers.Where(c => c.Name.Contains(CustomerName)).ToList();
-                //    superSetCount = db.Customers.Where(c => c.Name.Contains(CustomerName)).Count();
-                //}
-                //else
-                //{
-                //    customers = db.Customers.ToList();
-                //    superSetCount = db.Customers.Where(c => c.Name.Contains(CustomerName)).Count();
-                //}
+                if (ProdcutCode != null && ProdcutCode!="")
+                {
+                    categoryProducts = db.CategoryProduct.Where(c => c.Code == ProdcutCode).OrderBy(a=>a.Code).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                    superSetCount = db.CategoryProduct.Where(c => c.Code == ProdcutCode).OrderBy(a => a.Code).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Count();
+                }
+  
+                else
+                {
+                    categoryProducts = db.CategoryProduct.OrderBy(a => a.Code).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                    superSetCount = db.CategoryProduct.ToList().Count();
+                }
 
-                categoryProducts = db.CategoryProduct.ToList();
                 resultAsPagedList = new StaticPagedList<CategoryProduct>(categoryProducts, pageNumber, pageSize, superSetCount);
                 return PartialView("_CategoryProductDataTable", resultAsPagedList);
             }

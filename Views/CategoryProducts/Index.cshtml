@@ -15,7 +15,7 @@
                         <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Prodcut
+                                    Product
                                     <div id="nav-wrap" class="form-navigation">
                                         <div id="scroller-anchor"></div>
                                         <div id="nav">
@@ -27,7 +27,7 @@
                         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body">
                                 <p>
-                                    @Html.ActionLink("Add Prodcut +", "Create")
+                                    @Html.ActionLink("Add Product +", "Create")
                                 </p>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -36,9 +36,6 @@
                                             @Html.TextBox("ProdcutCode", null, null, htmlAttributes: new
                                        {
                                            @id = "ProdcutCode",
-                                           @type = "number",
-                                           @min = "1",
-                                           @value = "0",
                                            title = "من فضلك ادخل الكود",
                                            @class = "form-control",
                                            @placeholder = " ادخل الكود"
@@ -46,35 +43,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>الاسم </label>
-                                            @Html.TextBox("Category", null, null, htmlAttributes: new
-                                       {
-                                           @id = "CustomerName",
-                                           title = "من فضلك ادخل اسم العميل",
-                                           @class = "form-control",
-                                           @placeholder = " من فضلك ادخل اسم العميل"
-                                       })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>كود المنطقة</label>
-                                            @Html.TextBox("AreaCodeId", null, null, htmlAttributes: new
-                                       {
-                                           @id = "AreaCodeId",
-                                           title = "من فضلك ادخل كود المنطقة",
-                                           @class = "form-control",
-                                           @placeholder = " من فضلك ادخل كود المنطقة"
-                                       })
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-md-12 text-center" style="margin-top:30px;">
                                         <button type="button" id="searchBtn" class="btn btn-primary"
@@ -84,7 +52,7 @@
                                     </div>
                                 </div>
                                 <br />
-                                <div id="CustomerDiv">
+                                <div id="ProductDiv">
 
                                 </div>
 
@@ -105,8 +73,6 @@
 
     $("#searchBtn").click(function () {
         var ProdcutCode = $("#ProdcutCode").val();
-        //var CustomerName = $("#CustomerName").val();
-        //var AreaCodeId = $("#AreaCodeId").val();
         getRequests(ProdcutCode);
     });
 
@@ -125,7 +91,7 @@
             },
             success: function (result) {
                 debugger
-                $("#CustomerDiv").html(result);
+                $("#ProductDiv").html(result);
                 $this.button('reset');
             },
             error: function (err) {
