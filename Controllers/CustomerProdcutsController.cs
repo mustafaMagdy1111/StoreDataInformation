@@ -25,10 +25,8 @@ namespace StoreDataInformation.Controllers
         [HttpPost]
         public ActionResult Index(int? CustomerId, int? page)
         {
-            //ViewBag.CustomerId = CustomerId;
-            //ViewBag.CustomerName = CustomerName;
-            //ViewBag.AreaCodeId = AreaCodeId;
-            int pageSize = 25;
+            ViewBag.CustomerId = CustomerId;
+            int pageSize = 5;
             int pageNumber = page ?? 1;
             List<CustomerProdcut> customerProdcuts = new List<CustomerProdcut>();
             StaticPagedList<CustomerProdcut> resultAsPagedList;
@@ -38,13 +36,12 @@ namespace StoreDataInformation.Controllers
             {
                 if (CustomerId != null)
                 {
-                    customerProdcuts = db.CustomerProdcut.Where(c => c.Id == CustomerId).ToList();
-                    superSetCount = db.CustomerProdcut.Where(c => c.Id == CustomerId).Count();
+                    customerProdcuts = db.CustomerProdcut.Where(c => c.CustomerId == CustomerId).Include(a => a.customer).Include(a => a.CategoryProduct).ToList();
+                    superSetCount = db.CustomerProdcut.Where(c => c.CustomerId == CustomerId).Count();
                 }
                 else
                 {
-                    //customerProdcuts = db.CustomerProdcut.Include(a => a.customer).Include(a => a.CategoryProduct).ToList();
-                    customerProdcuts = db.CustomerProdcut.ToList();
+                    customerProdcuts = db.CustomerProdcut.Include(a => a.customer).Include(a => a.CategoryProduct).ToList();
                     superSetCount = db.CustomerProdcut.ToList().Count();
                 }
 

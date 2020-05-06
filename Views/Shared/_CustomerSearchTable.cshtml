@@ -1,15 +1,18 @@
 ﻿<div class="form-horizontal">
     <div class="row">
-        <div class="col-lg-6">
-            <div class="input-group">
+        <div class="col-lg-6 col-lg-offset-3" >
                 @Html.TextBox("CustomerName", null, null, htmlAttributes: new { @class = "form-control",  @placeholder = "Customer Name" })
-                <br /><br />
+                <br />
                 @Html.TextBox("CustomerId", null, null, htmlAttributes: new { @class = "form-control", @placeholder = "Customer Id" })
-                <span class="input-group-btn">
-                    <button id="hosNameSearch" type="button" class="btn btn-default" onclick="SearchCustomer()">
-                        <img src="~/images/search-icon.png" alt="">
-                    </button>
-                </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-5" >
+            <div class="input-group">
+                <br />
+                <button id="hosNameSearch" type="button" class="btn btn-default" onclick="SearchCustomer()">
+                    <img src="~/images/search-icon.png" alt="">
+                </button>
             </div>
         </div>
     </div>

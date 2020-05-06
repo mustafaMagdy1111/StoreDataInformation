@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body dir="rtl" align="right">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -19,13 +19,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("HStore", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Customer", "index", "Customers")</li>
+                    <li>@Html.ActionLink("Products", "index", "CategoryProducts")</li>
+                    <li>@Html.ActionLink("Rental", "index", "CustomerProdcuts")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -35,7 +35,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Hesham Store</p>
         </footer>
     </div>
 

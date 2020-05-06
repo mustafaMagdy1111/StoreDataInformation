@@ -17,30 +17,23 @@
         <th>
             Prodcut Code 
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
 <tr>
     <td>
-        @Html.DisplayFor(modelItem => item.Id)
+        @Html.DisplayFor(modelItem => item.customer.Name)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Id)
-    </td>
-
-    </td>
-    <td>
-        @Html.ActionLink("تعديل", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("تفاصيل", "Details", new { id = item.Id })
+        @Html.DisplayFor(modelItem => item.CategoryProduct.Code)
     </td>
 </tr>
     }
 
 </table>
 
-<div id="myPager">
+<div id="myPager" dir="rtl">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     <br />
     Total: @Model.TotalItemCount
@@ -50,10 +43,7 @@
             "Index",
             new
             {
-                COUNTRYID = ViewBag.CountryId,
-                COUNTRYARABICNAME = ViewBag.CountryArabicName,
-                COUNTRYNAME = ViewBag.CountryName,
-                ACTIVE = ViewBag.ACTIVE,
+                CustomerId = ViewBag.CustomerId,
                 page
             }
         ),
