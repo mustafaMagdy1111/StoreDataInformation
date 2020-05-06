@@ -27,7 +27,7 @@ namespace StoreDataInformation.Controllers
             ViewBag.CustomerId = CustomerId;
             ViewBag.CustomerName = CustomerName;
             ViewBag.AreaCodeId = AreaCodeId;
-            int pageSize = 25;
+            int pageSize = 10;
             int pageNumber = page ?? 1;
             List<Customer> customers = new List<Customer>();
             StaticPagedList<Customer> resultAsPagedList;
@@ -37,23 +37,32 @@ namespace StoreDataInformation.Controllers
             {
                 if (CustomerId != null)
                 {
-                    customers = db.Customers.Where(c => c.Id == CustomerId).ToList();
-                    superSetCount = db.Customers.Where(c => c.Id == CustomerId).Count();
+                    customers = db.Customers.Where(c => c.Id == CustomerId)
+                        .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                    superSetCount = db.Customers.Where(c => c.Id == CustomerId)
+                          .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()
+                        .Count();
                 }
                else if (AreaCodeId != null)
                 {
-                    customers = db.Customers.Where(c => c.AreaCodeId == AreaCodeId).ToList();
-                    superSetCount = db.Customers.Where(c => c.AreaCodeId == AreaCodeId).Count();
+                    customers = db.Customers.Where(c => c.AreaCodeId == AreaCodeId)
+                        .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                    superSetCount = db.Customers.Where(c => c.AreaCodeId == AreaCodeId)
+                          .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()
+                        .Count();
                 }
-              else  if(CustomerName!="")
+              else  if(CustomerName!="" &&CustomerName!=null)
                 {
-                    customers = db.Customers.Where(c => c.Name.Contains(CustomerName)).ToList();
-                    superSetCount = db.Customers.Where(c => c.Name.Contains(CustomerName)).Count();
+                    customers = db.Customers.Where(c => c.Name.Contains(CustomerName))
+                        .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                    superSetCount = db.Customers.Where(c => c.Name.Contains(CustomerName))
+                          .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Count();
                 }
                 else
                 {
-                    customers = db.Customers.ToList();
-                    superSetCount = db.Customers.Where(c => c.Name.Contains(CustomerName)).Count();
+                    customers = db.Customers
+                        .OrderBy(a => a.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                    superSetCount = db.Customers.Count();
                 }
                 resultAsPagedList = new StaticPagedList<Customer>(customers, pageNumber, pageSize, superSetCount);
                 return PartialView("_CustomerDataTable", resultAsPagedList);
