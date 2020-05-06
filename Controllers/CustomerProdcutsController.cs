@@ -36,12 +36,14 @@ namespace StoreDataInformation.Controllers
             {
                 if (CustomerId != null)
                 {
-                    customerProdcuts = db.CustomerProdcut.Where(c => c.CustomerId == CustomerId).Include(a => a.customer).Include(a => a.CategoryProduct).ToList();
+                    customerProdcuts = db.CustomerProdcut.Where(c => c.CustomerId == CustomerId).Include(a => a.customer).Include(a => a.CategoryProduct)
+                        .OrderBy(a => a.CustomerId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
                     superSetCount = db.CustomerProdcut.Where(c => c.CustomerId == CustomerId).Count();
                 }
                 else
                 {
-                    customerProdcuts = db.CustomerProdcut.Include(a => a.customer).Include(a => a.CategoryProduct).ToList();
+                    customerProdcuts = db.CustomerProdcut.Include(a => a.customer).Include(a => a.CategoryProduct)
+                        .OrderBy(a => a.CustomerId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
                     superSetCount = db.CustomerProdcut.ToList().Count();
                 }
 
@@ -91,10 +93,9 @@ namespace StoreDataInformation.Controllers
                 }
                 CustProdDb.NumberInStock= CustProdDb.NumberInStock-1;
                 db.CategoryProduct.AddOrUpdate(CustProdDb);
-                db.SaveChanges();
                 db.CustomerProdcut.Add(CustomerProductToBeAdded);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json("Done");
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", CustomerProductToBeAdded.CustomerId);

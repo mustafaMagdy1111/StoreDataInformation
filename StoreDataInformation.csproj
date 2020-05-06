@@ -175,7 +175,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AreaCodes1Controller.cs" />
-    <Compile Include="Controllers\AreaCodesController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryProductsController.cs" />
     <Compile Include="Controllers\CustomerProdcutsController.cs" />

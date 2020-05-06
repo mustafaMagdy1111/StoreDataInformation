@@ -109,6 +109,9 @@
                         if (response == "Stock Not Found That Product") {
                             alert("Stock Not Found That Product");
                         }
+                        if (response == "Done") {
+                            alert("Transaction Done Succesfully");
+                        }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert(thrownError + "request failed");

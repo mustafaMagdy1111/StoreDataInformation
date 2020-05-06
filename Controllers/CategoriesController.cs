@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,107 +11,107 @@ using StoreDataInformation.Models;
 
 namespace StoreDataInformation.Controllers
 {
-    public class AreaCodesController : Controller
+    public class CategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: AreaCodes
+        // GET: Categories
         public ActionResult Index()
         {
-            return View(db.AreaCodes.ToList());
+            return View(db.Category.ToList());
         }
 
-        // GET: AreaCodes/Details/5
+        // GET: Categories/Details/5
         public ActionResult Details(byte? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AreaCode areaCode = db.AreaCodes.Find(id);
-            if (areaCode == null)
+            Category category = db.Category.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(areaCode);
+            return View(category);
         }
 
-        // GET: AreaCodes/Create
+        // GET: Categories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: AreaCodes/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] AreaCode areaCode)
+        public ActionResult Create([Bind(Include = "Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.AreaCodes.Add(areaCode);
+                db.Category.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(areaCode);
+            return View(category);
         }
 
-        // GET: AreaCodes/Edit/5
+        // GET: Categories/Edit/5
         public ActionResult Edit(byte? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AreaCode areaCode = db.AreaCodes.Find(id);
-            if (areaCode == null)
+            Category category = db.Category.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(areaCode);
+            return View(category);
         }
 
-        // POST: AreaCodes/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] AreaCode areaCode)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(areaCode).State = EntityState.Modified;
+                db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(areaCode);
+            return View(category);
         }
 
-        // GET: AreaCodes/Delete/5
+        // GET: Categories/Delete/5
         public ActionResult Delete(byte? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AreaCode areaCode = db.AreaCodes.Find(id);
-            if (areaCode == null)
+            Category category = db.Category.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(areaCode);
+            return View(category);
         }
 
-        // POST: AreaCodes/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(byte id)
         {
-            AreaCode areaCode = db.AreaCodes.Find(id);
-            db.AreaCodes.Remove(areaCode);
+            Category category = db.Category.Find(id);
+            db.Category.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
