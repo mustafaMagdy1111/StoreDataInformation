@@ -4,29 +4,45 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="site-panel">
+                <div class="new-request" id="content-wrap">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default row-nav" data-height="700" id="row1" dir="rtl">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Edit  Product
+                                        <div id="nav-wrap" class="form-navigation">
+                                            <div id="scroller-anchor"></div>
+                                            <div id="nav">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>AreaCode</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                                    <h3>? Are you sure you want to delete this</h3>
+                                    <div>
+                                        @using (Html.BeginForm())
+                                        {
+                                            @Html.AntiForgeryToken()
 
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                                            <div class="form-actions no-color">
+                                                <input type="submit" value="Delete" class="btn btn-danger" />
+                                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-warning " })
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    }
-</div>
+    </div>
